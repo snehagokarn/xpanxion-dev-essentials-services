@@ -10,7 +10,7 @@ phases:
          commands:
     post_build:
          commands:
-            - cd xpanxion-dev-essentials-services && serverless deploy --stage $env --region us-east-1 --verbose
+            - serverless deploy --stage $env --region us-east-1 --verbose
 
 artifacts:
     files:
