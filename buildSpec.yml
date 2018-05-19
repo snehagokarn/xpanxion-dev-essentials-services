@@ -1,0 +1,19 @@
+version: 0.1
+
+phases:
+    install:
+         commands:
+            - apt-get -y update
+            - apt-get -y install zip
+            - npm install -g serverless
+    build:
+         commands:
+    post_build:
+         commands:
+            - cd xpanxion-dev-essentials-services && serverless deploy --stage $env --region us-east-1 --verbose
+
+artifacts:
+    files:
+         - xpanxion-dev-essentials-services/serverless.yml
+         - xpanxion-dev-essentials-services/publish.zip
+    discard-paths: yes

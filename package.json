@@ -1,0 +1,16 @@
+{
+  "name": "xpanxion-dev-essentials-services",
+  "version": "1.0.0",
+  "description": "services here are in node js",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Sneha Gokarn",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.4",
+    "serverless-offline": "^3.23.0",
+    "serverless-plugin-typescript": "^1.1.5"
+  }
+}
