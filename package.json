@@ -12,5 +12,10 @@
     "@types/aws-lambda": "^8.10.4",
     "serverless-offline": "^3.23.0",
     "serverless-plugin-typescript": "^1.1.5"
+  },
+  "dependencies": {
+    "@types/node": "^10.1.2",
+    "aws-sdk": "^2.243.1",
+    "dynamodb": "^1.1.1"
   }
 }
