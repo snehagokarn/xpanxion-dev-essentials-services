@@ -25,13 +25,26 @@ functions:
           path: hello
           method: get
   addUser:
-    handler: app/app.addUser
+    handler: app/users/addUser.addUser
     events:
       - http:
-          path: user
+          path: users
           method: post
+  getUserByEmail:
+    handler: app/users/getUser.getUserByEmail
+    events:
+      - http:
+          path: users/email/{email}
+          method: get
+  getUserById:
+    handler: app/users/getUser.getUserById
+    events:
+      - http:
+          path: users/{id}
+          method: get
 
 # The "Resources" your "Functions" use.  Raw AWS CloudFormation goes in here.
+resources:
   Resources:
     usersTable:
       Type: AWS::DynamoDB::Table
@@ -61,22 +74,22 @@ functions:
         ProvisionedThroughput:
           ReadCapacityUnits: 2
           WriteCapacityUnits: 2
-    UserScoresTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${opt:stage}Organizations
-        AttributeDefinitions:
-          - AttributeName: Id
-            AttributeType: "N"
-          - AttributeName: GiverId
-            AttributeType: "N"
-          - AttributeName: GetterId
-            AttributeType: "N"
-          - AttributeName: Score
-            AttributeType: "N"
-        KeySchema:
-          - AttributeName: Id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 2
-          WriteCapacityUnits: 2
+    # userScoresTable:
+    #   Type: AWS::DynamoDB::Table
+    #   Properties:
+    #     TableName: UserScores
+    #     AttributeDefinitions:
+    #       - AttributeName: Id
+    #         AttributeType: S
+    #       - AttributeName: GiverId
+    #         AttributeType: S
+    #       - AttributeName: GetterId
+    #         AttributeType: S
+    #       - AttributeName: Score
+    #         AttributeType: S
+    #     KeySchema:
+    #       - AttributeName: Id
+    #         KeyType: HASH
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 2
+    #       WriteCapacityUnits: 2
