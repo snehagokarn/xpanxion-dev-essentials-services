@@ -11,7 +11,7 @@ const getUserByEmail : Handler = (email:string, context: Context, callback: Call
    }
 
    const getUserById : Handler = (id:string, context: Context, callback: Callback) => {
-    let request =  {"Id":{"S":id}};
+    let request =  {"Id":id};
     BaseService.read<any,User>("Users", request,
     (response:any) =>{
         callback(null,response)

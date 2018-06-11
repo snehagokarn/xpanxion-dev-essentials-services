@@ -48,8 +48,8 @@ export class BaseService
           {
             let docClient = new DynamoDB.DocumentClient();
             var params:DynamoDB.DocumentClient.GetItemInput = {
-                TableName:tableName,
-                Key:item
+                Key:item,
+                TableName:tableName
             };
 
             var response : DynamoResponse;
