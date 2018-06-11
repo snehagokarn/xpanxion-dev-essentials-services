@@ -35,8 +35,8 @@ class BaseService {
     static read(tableName, item, callback) {
         let docClient = new aws_sdk_1.DynamoDB.DocumentClient();
         var params = {
-            TableName: tableName,
-            Key: item
+            Key: item,
+            TableName: tableName
         };
         var response;
         docClient.get(params, (err, data) => {

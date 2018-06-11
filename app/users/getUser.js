@@ -16,4 +16,11 @@ const getUserById = (id, context, callback) => {
     });
 };
 exports.getUserById = getUserById;
+const validate = (loginRequest, context, callback) => {
+    let request = { "Email": loginRequest.email, "password": loginRequest.password };
+    BaseService_1.BaseService.read("Users", request, (response) => {
+        callback(null, response);
+    });
+};
+exports.validate = validate;
 //# sourceMappingURL=getUser.js.map
