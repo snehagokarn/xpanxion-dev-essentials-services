@@ -15,18 +15,16 @@ class BaseService {
                 console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
                 response = {
                     statusCode: err.code,
-                    error: err.message,
-                    data: null,
-                    success: false
+                    body: null,
+                    headers: null,
                 };
             }
             else {
                 console.log("Added item:", JSON.stringify(data, null, 2));
                 response = {
                     statusCode: '200',
-                    error: null,
-                    data: data,
-                    success: true
+                    body: JSON.stringify(data),
+                    headers: null
                 };
             }
             callback(response);
@@ -36,24 +34,49 @@ class BaseService {
         let docClient = new aws_sdk_1.DynamoDB.DocumentClient();
         var params = {
             Key: item,
-            TableName: tableName
+            TableName: tableName,
         };
         var response;
         docClient.get(params, (err, data) => {
             if (err) {
                 response = {
                     statusCode: err.code,
-                    error: err.message,
-                    data: null,
-                    success: false
+                    body: null,
+                    headers: null
                 };
             }
             else {
                 response = {
                     statusCode: '200',
-                    error: null,
-                    data: data,
-                    success: true
+                    body: JSON.stringify(data),
+                    headers: null,
+                };
+            }
+            callback(response);
+        });
+    }
+    static query(tableName, filterExpression, expressionAttributeValues, indexName, callback) {
+        let docClient = new aws_sdk_1.DynamoDB.DocumentClient();
+        var params = {
+            TableName: tableName,
+            IndexName: indexName,
+            KeyConditionExpression: filterExpression,
+            ExpressionAttributeValues: expressionAttributeValues,
+        };
+        var response;
+        docClient.query(params, (err, data) => {
+            if (err) {
+                response = {
+                    statusCode: err.code,
+                    body: null,
+                    headers: null,
+                };
+            }
+            else {
+                response = {
+                    statusCode: '200',
+                    body: JSON.stringify(data),
+                    headers: null,
                 };
             }
             callback(response);

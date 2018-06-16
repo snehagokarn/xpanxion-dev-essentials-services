@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const BaseService_1 = require("../BaseService");
 'use strict';
 const getUserByEmail = (email, context, callback) => {
-    let request = { "Email": email };
-    BaseService_1.BaseService.read("Users", request, (response) => {
+    let request = 'Email = :pub_id';
+    let exp = { ':pub_id': 'gsneha14@yahoo.com' };
+    BaseService_1.BaseService.query("Users", request, exp, "userByEmail", (response) => {
         callback(null, response);
     });
 };
