@@ -16,7 +16,7 @@ class BaseService {
                 response = {
                     statusCode: err.code,
                     body: null,
-                    headers: null,
+                    headers: BaseService.headers,
                 };
             }
             else {
@@ -24,7 +24,7 @@ class BaseService {
                 response = {
                     statusCode: '200',
                     body: JSON.stringify(data),
-                    headers: null
+                    headers: BaseService.headers,
                 };
             }
             callback(response);
@@ -42,14 +42,14 @@ class BaseService {
                 response = {
                     statusCode: err.code,
                     body: null,
-                    headers: null
+                    headers: BaseService.headers
                 };
             }
             else {
                 response = {
                     statusCode: '200',
                     body: JSON.stringify(data),
-                    headers: null,
+                    headers: BaseService.headers,
                 };
             }
             callback(response);
@@ -68,20 +68,24 @@ class BaseService {
             if (err) {
                 response = {
                     statusCode: err.code,
-                    body: null,
-                    headers: null,
+                    body: err.message,
+                    headers: BaseService.headers,
                 };
             }
             else {
                 response = {
                     statusCode: '200',
                     body: JSON.stringify(data),
-                    headers: null,
+                    headers: BaseService.headers,
                 };
             }
             callback(response);
         });
     }
 }
+BaseService.headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
+};
 exports.BaseService = BaseService;
 //# sourceMappingURL=BaseService.js.map

@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseService_1 = require("../BaseService");
 'use strict';
-const getUserByEmail = (email, context, callback) => {
+const getUserByEmail = (event, context, callback) => {
     let request = 'Email = :pub_id';
-    let exp = { ':pub_id': 'gsneha14@yahoo.com' };
+    console.log("eventSneha" + JSON.stringify(event));
+    let exp = { ':pub_id': event.pathParameters.email };
     BaseService_1.BaseService.query("Users", request, exp, "userByEmail", (response) => {
         callback(null, response);
     });

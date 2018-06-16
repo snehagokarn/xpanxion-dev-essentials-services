@@ -2,9 +2,10 @@ import { Handler, Context,Callback } from 'aws-lambda'
 import {User} from '../models/User';
 import {BaseService} from "../BaseService"
 'use strict';
-const getUserByEmail : Handler = (email:string, context: Context, callback: Callback) => {
+const getUserByEmail : Handler = (event, context: Context, callback: Callback) => {
     let request = 'Email = :pub_id';
-    let exp :any = { ':pub_id': 'gsneha14@yahoo.com'};
+    console.log("eventSneha"+ JSON.stringify(event));
+    let exp :any = { ':pub_id': event.pathParameters.email};
     BaseService.query<any,User>("Users", request,exp,"userByEmail",
     (response:any) =>{
         callback(null,response)

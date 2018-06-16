@@ -7,7 +7,10 @@ interface DynamoResponse{
 }
 export class BaseService
     {
-        
+        static headers:any ={
+            "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+            "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
+          };
         static create<T>(tableName:string,item: T,callback:any):void {
             let docClient = new DynamoDB.DocumentClient();
 
@@ -24,14 +27,15 @@ export class BaseService
                     response = {
                         statusCode:err.code,
                         body:null,
-                        headers:null,
+                        headers:BaseService.headers,
                      }
                 } else {
                     console.log("Added item:", JSON.stringify(data, null, 2));
                     response = {
                         statusCode:'200',
                         body:JSON.stringify(data),
-                        headers:null  
+                       headers:BaseService.headers,
+                        
                      }
                 }
 
@@ -56,13 +60,13 @@ export class BaseService
                     response = {
                        statusCode:err.code,
                        body:null,
-                       headers:null 
+                       headers:BaseService.headers
                     }
                 } else {
                     response = {
                         statusCode:'200',
                         body:JSON.stringify(data),
-                        headers:null,
+                       headers:BaseService.headers,
                      }
                 }
 
@@ -89,14 +93,15 @@ export class BaseService
                 if (err) {
                     response = {
                        statusCode:err.code,
-                       body:null,
-                       headers:null,
+                       body:err.message,
+                       headers:BaseService.headers,
+                       
                     }
                 } else {
                     response = {
                         statusCode:'200',
                         body:JSON.stringify(data),
-                        headers:null,
+                        headers:BaseService.headers,
                      }
                 }
 
