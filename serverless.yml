@@ -18,18 +18,54 @@ package:
     -  node_modules/**/*
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
   addUser:
     handler: app/users/addUser.addUser
     events:
       - http:
           path: users
           method: post
+          cors:
+              origins:
+                - '*'
+              headers:
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+              allowCredentials: true
+  addScore:
+    handler: app/users/addUser.addScores
+    events:
+      - http:
+          path: scores
+          method: post
+          cors:
+              origins:
+                - '*'
+              headers:
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+              allowCredentials: true
+  uploadFile:
+    handler: app/Files/fileUpload.uploadFile
+    events:
+      - http:
+          path: uploadFile
+          method: post
+          cors:
+              origins:
+                - '*'
+              headers:
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+              allowCredentials: true
   getUserByEmail:
     handler: app/users/getUser.getUserByEmail
     events:
@@ -84,22 +120,33 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 2
           WriteCapacityUnits: 2
-    # userScoresTable:
-    #   Type: AWS::DynamoDB::Table
-    #   Properties:
-    #     TableName: UserScores
-    #     AttributeDefinitions:
-    #       - AttributeName: Id
-    #         AttributeType: S
-    #       - AttributeName: GiverId
-    #         AttributeType: S
-    #       - AttributeName: GetterId
-    #         AttributeType: S
-    #       - AttributeName: Score
-    #         AttributeType: S
-    #     KeySchema:
-    #       - AttributeName: Id
-    #         KeyType: HASH
-    #     ProvisionedThroughput:
-    #       ReadCapacityUnits: 2
-    #       WriteCapacityUnits: 2
+    userScoresTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserScores
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: S
+          - AttributeName: GiverId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: pointsIndex
+            KeySchema:
+              - AttributeName: GiverId
+                KeyType: HASH
+            Projection:
+              NonKeyAttributes:
+                  - GetterId
+                  - Score
+                  - Description
+                  - ImageUrl
+              ProjectionType: INCLUDE
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2

@@ -10,4 +10,12 @@ const addUser : Handler = (event:User, context: Context, callback: Callback) => 
     });
               
    }
-   export{addUser}
+
+   const addScores : Handler = (event, context: Context, callback: Callback) => {
+    console.log(event);
+    BaseService.create("UserScores",event,(response:any)=>{
+      callback(null,response)
+    });
+              
+   }
+   export{addUser,addScores}
