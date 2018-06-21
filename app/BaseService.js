@@ -23,7 +23,7 @@ class BaseService {
                 console.log("Added item:", JSON.stringify(data, null, 2));
                 response = {
                     statusCode: '200',
-                    body: JSON.stringify(data),
+                    body: JSON.stringify(true),
                     headers: BaseService.headers,
                 };
             }
@@ -65,6 +65,30 @@ class BaseService {
         };
         var response;
         docClient.query(params, (err, data) => {
+            if (err) {
+                response = {
+                    statusCode: err.code,
+                    body: err.message,
+                    headers: BaseService.headers,
+                };
+            }
+            else {
+                response = {
+                    statusCode: '200',
+                    body: JSON.stringify(data),
+                    headers: BaseService.headers,
+                };
+            }
+            callback(response);
+        });
+    }
+    static scan(tableName, callback) {
+        let docClient = new aws_sdk_1.DynamoDB.DocumentClient();
+        var params = {
+            TableName: tableName,
+        };
+        var response;
+        docClient.scan(params, (err, data) => {
             if (err) {
                 response = {
                     statusCode: err.code,

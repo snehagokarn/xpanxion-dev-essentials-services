@@ -82,6 +82,22 @@ functions:
                 - X-Api-Key
                 - X-Amz-Security-Token
               allowCredentials: true
+  getDashBoard:
+    handler: app/dashboard/Dashboard.getDashBoard
+    events:
+      - http:
+          path: dashboard
+          method: get
+          cors:
+              origins:
+                - '*'
+              headers:
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+              allowCredentials: true
   getUserById:
     handler: app/users/getUser.getUserById
     events:

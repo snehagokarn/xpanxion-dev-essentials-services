@@ -33,7 +33,7 @@ export class BaseService
                     console.log("Added item:", JSON.stringify(data, null, 2));
                     response = {
                         statusCode:'200',
-                        body:JSON.stringify(data),
+                        body:JSON.stringify(true),
                        headers:BaseService.headers,
                         
                      }
@@ -90,6 +90,36 @@ export class BaseService
             var response : DynamoResponse;
             
            docClient.query(params, (err, data:A) => {
+                if (err) {
+                    response = {
+                       statusCode:err.code,
+                       body:err.message,
+                       headers:BaseService.headers,
+                       
+                    }
+                } else {
+                    response = {
+                        statusCode:'200',
+                        body:JSON.stringify(data),
+                        headers:BaseService.headers,
+                     }
+                }
+
+                callback(response);
+            });
+        }
+
+        static scan<T,A>(tableName:string,
+            callback:any):void
+          {
+            let docClient = new DynamoDB.DocumentClient();
+            var params:DynamoDB.DocumentClient.ScanInput = {
+                TableName:tableName,
+            };
+
+            var response : DynamoResponse;
+            
+           docClient.scan(params, (err, data:A) => {
                 if (err) {
                     response = {
                        statusCode:err.code,
