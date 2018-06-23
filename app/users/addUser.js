@@ -9,8 +9,8 @@ const addUser = (event, context, callback) => {
 };
 exports.addUser = addUser;
 const addScores = (event, context, callback) => {
-    console.log(event);
-    BaseService_1.BaseService.create("UserScores", event, (response) => {
+    var eventBody = JSON.parse(event.body);
+    BaseService_1.BaseService.create("UserScores", eventBody, (response) => {
         callback(null, response);
     });
 };
