@@ -10,11 +10,15 @@ const uploadFile = (event, context, callback) => {
         secretAccessKey: 'BGA1LlMEvxP02Bx2qDXDHd0vs80eySP2W1VmgB4s',
         region: 'us-east-1'
     });
+    let eventBody = JSON.parse(event.body);
+    let buffer = new Buffer(eventBody.file.replace(/^data:image\/\w+;base64,/, ""), 'base64');
     const params = {
         Bucket: 'bucketforsneha',
-        Key: "UploadedFile" + Math.random().toString() + file.extension,
-        Body: event.body,
-        ContentType: file.extension
+        Key: eventBody.name,
+        Body: buffer,
+        ContentType: eventBody.extension,
+        ACL: "public-read",
+        ContentEncoding: 'base64'
     };
     bucket.upload(params, (err, data) => {
         if (err) {

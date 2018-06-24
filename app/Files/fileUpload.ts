@@ -13,11 +13,16 @@ const uploadFile : Handler = (event:any, context: Context, callback: Callback) =
         }
       );
 
+      let eventBody = JSON.parse(event.body);
+
+      let buffer = new Buffer(eventBody.file.replace(/^data:image\/\w+;base64,/, ""),'base64')
       const params = {
         Bucket: 'bucketforsneha',
-        Key: "UploadedFile"+ Math.random().toString() + file.extension,
-        Body: event.body,
-        ContentType: file.extension
+        Key: eventBody.name,
+        Body: buffer,
+        ContentType: eventBody.extension,
+        ACL:"public-read",
+        ContentEncoding: 'base64'
       };
 
       bucket.upload(params,(err:Error,data:S3.ManagedUpload.SendData)=>{ 
@@ -45,5 +50,7 @@ const uploadFile : Handler = (event:any, context: Context, callback: Callback) =
           callback(null,response)
           return true;
       });
-   }
+
+      
+    }
    export{uploadFile}
