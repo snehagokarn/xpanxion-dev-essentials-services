@@ -3,15 +3,8 @@ import * as S3 from 'aws-sdk/clients/s3';
 'use strict';
 
 const uploadFile : Handler = (event:any, context: Context, callback: Callback) => {
-    let file = event;
     console.log(event);
-    const bucket = new S3(
-        {
-          accessKeyId: 'AKIAILOMKAAP54H3HUDA',
-          secretAccessKey: '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',
-          region: 'us-east-1'
-        }
-      );
+    const bucket = new S3();
 
       let eventBody = JSON.parse(event.body);
 
