@@ -3,13 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const S3 = require("aws-sdk/clients/s3");
 'use strict';
 const uploadFile = (event, context, callback) => {
-    let file = event;
     console.log(event);
-    const bucket = new S3({
-        accessKeyId: 'AKIAILOMKAAP54H3HUDA',
-        secretAccessKey: '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',
-        region: 'us-east-1'
-    });
+    const bucket = new S3();
     let eventBody = JSON.parse(event.body);
     let buffer = new Buffer(eventBody.file.replace(/^data:image\/\w+;base64,/, ""), 'base64');
     const params = {
